@@ -1,0 +1,40 @@
+name: Analyze code
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        description: "The Node version used to analyze the code"
+        required: true
+        type: string
+
+jobs:
+  analyze-code:
+    name: Analyze code
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: "npm"
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+
+        with:
+          languages: javascript
+
+      - name: Install package
+        run: npm ci
+
+      - name: Build package
+        run: npm run build
+
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v1

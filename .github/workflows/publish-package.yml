@@ -1,0 +1,43 @@
+name: Publish package
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        description: "The Node version used to build the package"
+        required: true
+        type: string
+
+    secrets:
+      NPM_TOKEN:
+        description: "The npm token used to publish the package"
+        required: true
+
+jobs:
+  publish-package:
+    name: Publish package
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get version
+        run: |
+          echo "NPM_VERSION=${GITHUB_REF##*/v}" >> $GITHUB_ENV
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+
+        with:
+          node_version: ${{ inputs.node_version }}
+          cache: "npm"
+          registry-url: https://registry.npmjs.org/
+
+      - name: Publish package
+
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+        run: |
+          npm publish --access public --tag "$(if [[ $NPM_VERSION == *-* ]]; then echo beta; else echo latest; fi)"
