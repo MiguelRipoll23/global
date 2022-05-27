@@ -29,6 +29,9 @@ jobs:
         with:
           languages: javascript
 
+      - name: Install package
+        run: npm ci
+
       - name: Build package
         run: npm run build
 
