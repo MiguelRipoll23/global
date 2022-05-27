@@ -25,16 +25,12 @@ jobs:
           cache: "npm"
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v1
-
+        uses: github/codeql-action/init@v2
         with:
           languages: javascript
-
-      - name: Install package
-        run: npm ci
 
       - name: Build package
         run: npm run build
 
-      - name: Perform CodeQL analysis
-        uses: github/codeql-action/analyze@v1
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
