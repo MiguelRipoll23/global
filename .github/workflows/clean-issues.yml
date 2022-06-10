@@ -8,9 +8,13 @@ jobs:
     name: Clean issues
     runs-on: ubuntu-latest
 
+    permissions:
+      issues: write
+      pull-requests: write
+
     steps:
       - name: Clean issues
-        uses: actions/stale@v3
+        uses: actions/stale@v5.0.0
 
         with:
           days-before-stale: 14

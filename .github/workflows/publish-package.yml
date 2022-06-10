@@ -24,10 +24,10 @@ jobs:
           echo "NPM_VERSION=${GITHUB_REF##*/v}" >> $GITHUB_ENV
 
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
 
         with:
           node_version: ${{ inputs.node_version }}
