@@ -8,6 +8,12 @@ on:
         required: true
         type: string
 
+      languages:
+        description: "The languages used to analyze the code"
+        default: "javascript"
+        required: false
+        type: string
+
 jobs:
   analyze-code:
     name: Analyze code
@@ -27,7 +33,7 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
-          languages: javascript
+          languages: ${{ inputs.languages }}
 
       - name: Install package
         run: npm ci
